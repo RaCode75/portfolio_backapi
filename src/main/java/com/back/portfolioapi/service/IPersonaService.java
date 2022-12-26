@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface IPersonaService {
     
-    public List<Persona> getPersonas();
+    public List<Persona> getPersonas();//modified
     
-    public void addPersona(Persona per);
+    public void savePersona(Persona per);
     
     public void deletePersona(Long id);
     
