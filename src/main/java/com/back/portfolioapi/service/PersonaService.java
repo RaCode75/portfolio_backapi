@@ -38,6 +38,5 @@ public class PersonaService implements IPersonaService {
     public Persona findPersona(Long id) {
        return perRepo.findById( id).orElse(null);
     }
-
-    
+   
 }

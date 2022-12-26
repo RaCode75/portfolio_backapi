@@ -18,5 +18,4 @@ public interface IProjectService {
     
     public Project findProject(Long id);
     
-    public Project upgradeProject(Long id);
 }

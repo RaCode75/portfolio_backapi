@@ -34,11 +34,5 @@ public class ProjectService implements IProjectService {
     @Override
     public Project findProject(Long id) {
        return proRepo.findById(id).orElse(null);
-    }
-
-    @Override
-    public Project upgradeProject(Long id) {
-       return null;
-    }
-    
+    }    
 }

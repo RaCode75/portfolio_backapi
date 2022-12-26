@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface IEducationService {
     
-    public List<Education> lookEducation();
+    public List<Education> getEducation();
     
     public void addCurso(Education ed);
     
