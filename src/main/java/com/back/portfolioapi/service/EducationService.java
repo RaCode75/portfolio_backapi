@@ -23,18 +23,17 @@ public class EducationService implements IEducationService{
     }
 
     @Override
-    public void addCurso(Education ed) {
+    public void addEducation(Education ed) {
         edRepo.save(ed);
     }
 
     @Override
-    public void deleteCurso(Long id) {
+    public void deleteEducation(Long id) {
         edRepo.deleteById(id);
     }
 
     @Override
-    public Education findCurso(Long id) {
+    public Education findEducation(Long id) {
         return edRepo.findById(id).orElse(null);
-    }
-    
+    }   
 }

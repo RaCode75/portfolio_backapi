@@ -25,23 +25,25 @@ public class PersonaController {
     private IPersonaService iperService;
     
     
-    @PostMapping ("/new/persona")
-         public void addPersona(@RequestBody Persona per){
+    @PostMapping ("persona/new")
+         public String addPersona(@RequestBody Persona per){
                 iperService.addPersona(per);
+                return "Se agrego una Persona correctamente";
             }
             
-     @GetMapping("ver/personas")
+     @GetMapping("persona/all")
      @ResponseBody
         public List<Persona> verPersonas(){
             return iperService.getPersonas();
         }
         
-     @DeleteMapping("delete/{id}")
-        public void deletePersona(@PathVariable Long id){
+     @DeleteMapping("persona/delete/{id}")
+        public String deletePersona(@PathVariable Long id){
             iperService.deletePersona(id);
+                return "Se elimino una Persona correctamente";
         }
         
-     @GetMapping("find/{id}")
+     @GetMapping("persona/find/{id}")
         public void findPersona(@PathVariable Long id){
             iperService.findPersona(id);
         }

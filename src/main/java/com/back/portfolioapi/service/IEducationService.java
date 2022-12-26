@@ -12,11 +12,11 @@ public interface IEducationService {
     
     public List<Education> getEducation();
     
-    public void addCurso(Education ed);
+    public void addEducation(Education ed);
     
-    public void deleteCurso(Long id);
+    public void deleteEducation(Long id);
     
-    public Education findCurso(Long id);
+    public Education findEducation(Long id);
     
     
 }

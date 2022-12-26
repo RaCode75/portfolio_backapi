@@ -27,6 +27,7 @@ public class Project {
     private String description;
     private String technologies;
     private String repo;
+    private String site;
     
     public Project(){
     }
@@ -36,12 +37,14 @@ public class Project {
                               String imagen,
                               String description,
                               String technologies,
-                              String repo
+                              String repo,
+                              String site
     ){
         this.titulo = titulo;
         this.imagen = imagen;
         this.description = description;
         this.technologies = technologies;
         this.repo = repo;
+        this.site = site;
     }
 }
