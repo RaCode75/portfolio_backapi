@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +27,7 @@ public class EducationController {
     
      @PostMapping ("education/new")
          public String addEducation(@RequestBody Education ed){
-               iedServ.addEducation(ed);
+               iedServ.saveEducation(ed);
                 return "Se añadio una Education correctamente";
             }
          
@@ -44,6 +46,27 @@ public class EducationController {
      @GetMapping("education/find/{id}")
         public void findEducation(@PathVariable Long id){
             iedServ.findEducation(id);
-        }    
+        }
+        
+     @PutMapping("education/edit/{id}")
+        public Education editEducation(@PathVariable Long id,
+                                                          @RequestParam("titulo") String newTitulo,
+                                                          @RequestParam("imagen") String newImg,
+                                                          @RequestParam("carrera") String newCarrera,
+                                                          @RequestParam("codigo") String newCodigo,
+                                                          @RequestParam("inicio") String newInicio,
+                                                          @RequestParam("fin") String newFin ){
+            
+         Education ed = iedServ.findEducation(id);
+                ed.setTitulo(newTitulo);
+                ed.setImagen(newFin);
+                ed.setCarrera(newCarrera);
+                ed.setCodigo(newCodigo);
+                ed.setInicio(newInicio);
+                ed.setFin(newFin);
+                
+         iedServ.saveEducation(ed);
+         return ed;
+        }
     
 }

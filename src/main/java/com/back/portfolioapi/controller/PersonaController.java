@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.back.portfolioapi.service.IPersonaService;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -27,7 +29,7 @@ public class PersonaController {
     
     @PostMapping ("persona/new")
          public String addPersona(@RequestBody Persona per){
-                iperService.addPersona(per);
+                iperService.savePersona(per);
                 return "Se agrego una Persona correctamente";
             }
             
@@ -46,6 +48,35 @@ public class PersonaController {
      @GetMapping("persona/find/{id}")
         public void findPersona(@PathVariable Long id){
             iperService.findPersona(id);
+        }
+        
+      @PutMapping("persona/edit/{id}")
+        public Persona editPersona(@PathVariable Long id,
+                                                    @RequestParam("nombre") String newNombre,
+                                                    @RequestParam("apellido") String newApellido,
+                                                    @RequestParam("fecha_nacimiento") String newFechaNac,
+                                                    @RequestParam("nacionalidad") String newNacionalidad,
+                                                    @RequestParam("ocupacion") String newOcupacion,
+                                                    @RequestParam("email") String newEmail,
+                                                    @RequestParam("sobre_mi") String newSobreMi,
+                                                    @RequestParam("imagen_perfil") String newImagen,
+                                                    @RequestParam("reside_en") String newReside,
+                                                    @RequestParam("pass") String newPass){
+            
+            Persona per = iperService.findPersona(id);
+                    per.setNombre(newNombre);
+                    per.setApellido(newApellido);
+                    per.setFecha_nacimiento(newFechaNac);
+                    per.setNacionalidad(newNacionalidad);
+                    per.setOcupacion(newOcupacion);
+                    per.setEmail(newEmail);
+                    per.setSobre_mi(newSobreMi);
+                    per.setImage_perfil(newEmail);
+                    per.setReside_en(newImagen);
+                    per.setPass(newPass);
+               iperService.savePersona(per);
+               
+               return per;
         }
         
         

@@ -12,7 +12,7 @@ public interface IProjectService {
     
      public List<Project> getProject();
     
-    public void addProject(Project pro);
+    public void saveProject(Project pro);
     
     public void deleteProject(Long id);
     

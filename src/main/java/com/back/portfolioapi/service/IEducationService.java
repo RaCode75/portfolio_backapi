@@ -12,7 +12,7 @@ public interface IEducationService {
     
     public List<Education> getEducation();
     
-    public void addEducation(Education ed);
+    public void saveEducation(Education ed);
     
     public void deleteEducation(Long id);
     

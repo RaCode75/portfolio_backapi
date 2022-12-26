@@ -16,13 +16,14 @@ public class ProjectService implements IProjectService {
 
     @Autowired
     public ProjectRepository proRepo;
+    
     @Override
     public List<Project> getProject() {
       return proRepo.findAll();
     }
 
     @Override
-    public void addProject(Project pro) {
+    public void saveProject(Project pro) {
        proRepo.save(pro);
     }
 
