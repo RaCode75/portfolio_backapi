@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class PersonaService implements iPersonaService {
+public class PersonaService implements IPersonaService {
     
     @Autowired
     public PersonaRepository perRepo;
 
     @Override
-    public List<Persona> lookPersonas() {
+    public List<Persona> getPersonas() {
         return perRepo.findAll();
     }
 
@@ -38,7 +38,6 @@ public class PersonaService implements iPersonaService {
     public Persona findPersona(Long id) {
        return perRepo.findById( id).orElse(null);
     }
-
 
     
 }

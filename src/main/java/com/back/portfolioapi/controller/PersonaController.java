@@ -2,7 +2,6 @@
 package com.back.portfolioapi.controller;
 
 import com.back.portfolioapi.model.Persona;
-import com.back.portfolioapi.service.iPersonaService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import com.back.portfolioapi.service.IPersonaService;
 
 /**
  *
@@ -19,10 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-public class Controller {
+public class PersonaController {
     
     @Autowired
-    private iPersonaService iperService;
+    private IPersonaService iperService;
+    
     
     @PostMapping ("/new/persona")
          public void addPersona(@RequestBody Persona per){
@@ -32,7 +33,7 @@ public class Controller {
      @GetMapping("ver/personas")
      @ResponseBody
         public List<Persona> verPersonas(){
-            return iperService.lookPersonas();
+            return iperService.getPersonas();
         }
         
      @DeleteMapping("delete/{id}")

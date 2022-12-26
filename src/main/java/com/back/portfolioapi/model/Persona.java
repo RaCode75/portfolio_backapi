@@ -36,6 +36,7 @@ public class Persona {
     private String sobre_mi;
     private String image_perfil;
     private String reside_en;
+    private String pass;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
@@ -54,7 +55,8 @@ public class Persona {
                             String email,
                             String sobre_mi,
                             String image_perfil,
-                            String reside_en
+                            String reside_en,
+                            String pass
                             ){
     
             this.id = id;
@@ -67,6 +69,7 @@ public class Persona {
             this.sobre_mi = sobre_mi;
             this.image_perfil = image_perfil;
             this.reside_en = reside_en;
+            this.pass = pass;
     }
     
 }
