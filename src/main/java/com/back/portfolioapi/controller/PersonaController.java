@@ -2,7 +2,7 @@
 package com.back.portfolioapi.controller;
 
 import com.back.portfolioapi.model.Persona;
-import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.back.portfolioapi.service.IPersonaService;
+import java.util.List;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  *
@@ -32,6 +34,8 @@ public class PersonaController {
                 iperService.savePersona(per);
                 return "Se agrego una Persona correctamente";
             }
+         
+
             
      @GetMapping("persona/all")
      @ResponseBody
