@@ -1,49 +1,58 @@
 
 package com.back.portfolioapi.model;
 
-import com.back.portfolioapi.model.Roles.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
  * @author RaCode75
  */
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter @Setter
 @Entity
 @Table(name="persona")
-public class Persona {
+public class Persona implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
-    private String nombre;
+    private String firstname;
+    @Column
+    private String lastname;
     @Column
     private String email;
     @Column
     @JsonIgnore
-    private String pass;
-    @Column
-    private String apellido;
-    @Column
+    private String password;
+    @Column    
     private String fecha_nacimiento;
     @Column
     private String nacionalidad;
@@ -58,51 +67,47 @@ public class Persona {
     
     @OneToMany(
             cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
             orphanRemoval = true
     )
     @JoinColumn(name="persona_id")
-    private List<Education> cursos = new ArrayList<>();
+    private List<Education> Education;
+    
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "persona_roles", 
-	joinColumns = @JoinColumn(name = "persona_id"), 
-	inverseJoinColumns = @JoinColumn(name = "role_id"))
-private Set<Role> roles = new HashSet<>();
-        
-    public Persona(){
-    }
-    
-    public Persona(Long id,
-                            String nombre,
-                            String apellido,
-                            String fecha_nacimiento,
-                            String nacionalidad,
-                            String ocupacion,
-                            String email,
-                            String sobre_mi,
-                            String image_perfil,
-                            String reside_en,
-                            String pass
-                            ){
-    
-            this.id = id;
-            this.nombre = nombre;
-            this.apellido = apellido;
-            this.fecha_nacimiento =  fecha_nacimiento;
-            this.nacionalidad = nacionalidad;
-            this.ocupacion = ocupacion;
-            this. email = email;
-            this.sobre_mi = sobre_mi;
-            this.image_perfil = image_perfil;
-            this.reside_en = reside_en;
-            this.pass = pass;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-  	public Set<Role> getRoles() {
-		return roles;
-	}
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+       return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+       return true;
+    }
 }

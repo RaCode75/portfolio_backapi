@@ -56,8 +56,8 @@ public class PersonaController {
         
       @PutMapping("persona/edit/{id}")
         public Persona editPersona(@PathVariable Long id,
-                                                    @RequestParam("nombre") String newNombre,
-                                                    @RequestParam("apellido") String newApellido,
+                                                    @RequestParam("firstname") String newFirstName,
+                                                    @RequestParam("lastname") String newLastName,
                                                     @RequestParam("fecha_nacimiento") String newFechaNac,
                                                     @RequestParam("nacionalidad") String newNacionalidad,
                                                     @RequestParam("ocupacion") String newOcupacion,
@@ -65,11 +65,11 @@ public class PersonaController {
                                                     @RequestParam("sobre_mi") String newSobreMi,
                                                     @RequestParam("imagen_perfil") String newImagen,
                                                     @RequestParam("reside_en") String newReside,
-                                                    @RequestParam("pass") String newPass){
+                                                    @RequestParam("password") String newPassword){
             
             Persona per = iperService.findPersona(id);
-                    per.setNombre(newNombre);
-                    per.setApellido(newApellido);
+                    per.setFirstname(newFirstName);
+                    per.setLastname(newLastName);
                     per.setFecha_nacimiento(newFechaNac);
                     per.setNacionalidad(newNacionalidad);
                     per.setOcupacion(newOcupacion);
@@ -77,7 +77,7 @@ public class PersonaController {
                     per.setSobre_mi(newSobreMi);
                     per.setImage_perfil(newEmail);
                     per.setReside_en(newImagen);
-                    per.setPass(newPass);
+                    per.setPassword(newPassword);
                iperService.savePersona(per);
                
                return per;
