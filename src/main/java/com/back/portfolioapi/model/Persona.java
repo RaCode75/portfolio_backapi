@@ -85,6 +85,11 @@ public class Persona implements UserDetails{
     public String getPassword() {
         return password;
     }
+    
+
+  /*  public void setNacionalidad(String newNacionalidad){
+        this.nacionalidad= newNacionalidad;
+    }*/
 
     @Override
     public String getUsername() {

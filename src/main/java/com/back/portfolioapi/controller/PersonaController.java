@@ -3,6 +3,7 @@ package com.back.portfolioapi.controller;
 
 import com.back.portfolioapi.model.Persona;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.back.portfolioapi.service.IPersonaService;
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 
 @RestController
+@CrossOrigin(origins = "*")
 public class PersonaController {
     
     @Autowired
@@ -50,11 +53,13 @@ public class PersonaController {
         }
         
      @GetMapping("persona/find/{id}")
-        public void findPersona(@PathVariable Long id){
-            iperService.findPersona(id);
+     @ResponseBody
+        public Persona findPersona(@PathVariable Long id){
+           return iperService.findPersona(id);
+            
         }
         
-      @PutMapping("persona/edit/{id}")
+   /*   @PutMapping("persona/edit/{id}")
         public Persona editPersona(@PathVariable Long id,
                                                     @RequestParam("firstname") String newFirstName,
                                                     @RequestParam("lastname") String newLastName,
@@ -66,7 +71,7 @@ public class PersonaController {
                                                     @RequestParam("imagen_perfil") String newImagen,
                                                     @RequestParam("reside_en") String newReside,
                                                     @RequestParam("password") String newPassword){
-            
+
             Persona per = iperService.findPersona(id);
                     per.setFirstname(newFirstName);
                     per.setLastname(newLastName);
@@ -78,11 +83,32 @@ public class PersonaController {
                     per.setImage_perfil(newEmail);
                     per.setReside_en(newImagen);
                     per.setPassword(newPassword);
+
                iperService.savePersona(per);
                
-               return per;
+               return per;              
+           
+        }*/
+        
+        @PutMapping("persona/edit/{id}")
+        public Persona editPersona(@RequestBody Persona per, @PathVariable Long id){
+            Persona newPer = iperService.findPersona(id);
+
+               newPer.setFirstname(per.getFirstname());
+               newPer.setLastname(per.getLastname());
+               newPer.setFecha_nacimiento(per.getFecha_nacimiento());
+               newPer.setNacionalidad(per.getNacionalidad());
+               newPer.setOcupacion(per.getOcupacion());
+               newPer.setEmail(per.getEmail());
+               newPer.setSobre_mi(per.getSobre_mi());
+               newPer.setImage_perfil(per.getImage_perfil());
+               newPer.setReside_en(per.getReside_en());
+               newPer.setPassword(per.getPassword());
+                    iperService.savePersona(per);
+                    return newPer;
         }
         
+
         
     
 }
