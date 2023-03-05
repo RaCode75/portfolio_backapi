@@ -1,7 +1,6 @@
 
 package com.back.portfolioapi.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,12 +19,11 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 
 /**
  *
@@ -36,10 +34,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter
 @Entity
-@Table(name="persona")
-public class Persona implements UserDetails{
+@Table(name="Persona")
+public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -50,7 +47,6 @@ public class Persona implements UserDetails{
     @Column
     private String email;
     @Column
-    @JsonIgnore
     private String password;
     @Column    
     private String fecha_nacimiento;
@@ -64,6 +60,8 @@ public class Persona implements UserDetails{
     private String image_perfil;
     @Column
     private String reside_en;
+    @Column
+    private String roles;
     
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -71,40 +69,42 @@ public class Persona implements UserDetails{
             orphanRemoval = true
     )
     @JoinColumn(name="persona_id")
-    private List<Education> Education;
+    private List<Project> projects = new ArrayList<>();
     
-    @Enumerated(EnumType.STRING)
-    private Role role;
+        @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    @JoinColumn(name="persona_id")
+    private List<Education> educations = new ArrayList<>();
+        
+        
+     
 
-    @Override
+    /*@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-    
-
-  /*  public void setNacionalidad(String newNacionalidad){
-        this.nacionalidad= newNacionalidad;
-    }*/
+           }
 
     @Override
     public String getUsername() {
         return email;
-    }
+           }
+    
+       @Override
+    public String getPassword() {
+        return password;    }
 
     @Override
     public boolean isAccountNonExpired() {
         return true;
-    }
+            }
 
     @Override
     public boolean isAccountNonLocked() {
         return true;
-    }
+           }
 
     @Override
     public boolean isCredentialsNonExpired() {
@@ -113,6 +113,8 @@ public class Persona implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-       return true;
-    }
+        return true;
+    }*/
+
+    
 }

@@ -1,21 +1,20 @@
 
 package com.back.portfolioapi.controller;
 
-/**
- *
- * @author RaCode75
- */
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *
+ * @author RaCode75
+ */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationRequest {
-
-  private String email;
-  String password;
+    private String email;
+    private String password;
 }

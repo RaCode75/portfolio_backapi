@@ -3,8 +3,11 @@ package com.back.portfolioapi.service;
 
 import com.back.portfolioapi.model.Persona;
 import com.back.portfolioapi.repository.PersonaRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 
@@ -14,19 +17,22 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
+@RequiredArgsConstructor
+@Transactional 
 public class PersonaService implements IPersonaService {
     
     @Autowired
     public PersonaRepository perRepo;
-
+    
     @Override
     public List<Persona> getPersonas() {
         return perRepo.findAll();
     }
 
+ 
     @Override
-    public void savePersona(Persona per) {
-        perRepo.save(per);
+    public Persona savePersona(Persona per) {
+       return  perRepo.save(per);
     }
 
     @Override
@@ -37,12 +43,13 @@ public class PersonaService implements IPersonaService {
     @Override
     public Persona findPersona(Long id) {
        return perRepo.findById( id).orElse(null);
-    }
+    } 
 
-    @Override
-    public Persona findPersona(String email) {
-       return perRepo.findByEmail(email).orElse(null);
-    }
+/*    @Override
+    public Persona findByEmail(String email) {
+        return perRepo.findByEmail(email).orElseThrow(()
+                -> new UsernameNotFoundException("User not found"));
+    }*/
+
     
-     
 }
