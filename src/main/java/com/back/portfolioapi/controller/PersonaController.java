@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
@@ -41,7 +41,6 @@ public class PersonaController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtService jwtService;
-    //private final AuthenticationService service;
     
     
     @PostMapping ("/persona/auth/register")
@@ -67,55 +66,30 @@ public class PersonaController {
         }
         
      @DeleteMapping("persona/delete/{id}")
+     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
         public String deletePersona(@PathVariable Long id){
             iperService.deletePersona(id);
                 return "Se elimino una Persona correctamente";
         }
         
      @GetMapping("persona/find/{id}")
+     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
      @ResponseBody
         public Persona findPersona(@PathVariable Long id){
            return iperService.findPersona(id);
             
         }
-        /*
-      @PutMapping("persona/edit/{id}")
-        public Persona editPersona(@PathVariable Long id,
-                                                    @RequestParam("firstname") String newFirstName,
-                                                    @RequestParam("lastname") String newLastName,
-                                                    @RequestParam("fecha_nacimiento") String newFechaNac,
-                                                    @RequestParam("nacionalidad") String newNacionalidad,
-                                                    @RequestParam("ocupacion") String newOcupacion,
-                                                    @RequestParam("email") String newEmail,
-                                                    @RequestParam("sobre_mi") String newSobreMi,
-                                                    @RequestParam("imagen_perfil") String newImagen,
-                                                    @RequestParam("reside_en") String newReside,
-                                                    @RequestParam("password") String newPassword){
+        
 
-            Persona per = iperService.findPersona(id);
-                    per.setFirstname(newFirstName);
-                    per.setLastname(newLastName);
-                    per.setFecha_nacimiento(newFechaNac);
-                    per.setNacionalidad(newNacionalidad);
-                    per.setOcupacion(newOcupacion);
-                    per.setEmail(newEmail);
-                    per.setSobre_mi(newSobreMi);
-                    per.setImage_perfil(newEmail);
-                    per.setReside_en(newImagen);
-                    per.setPassword(newPassword);
-
-               iperService.savePersona(per);
-               
-               return per;              
-           
-        }*/
         
         @PutMapping("persona/edit/{id}")
-        public Persona editPersona(@RequestBody Persona per, @PathVariable Long id){
-            Persona newPer = iperService.findPersona(id);
+        @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+        public Persona replacePersona(@RequestBody Persona per, @PathVariable Long id){
+            Persona newPer = iperService.findPersona(id); 
 
                newPer.setFirstname(per.getFirstname());
                newPer.setLastname(per.getLastname());
+               newPer.setPassword(passwordEncoder.encode(per.getPassword()));
                newPer.setFecha_nacimiento(per.getFecha_nacimiento());
                newPer.setNacionalidad(per.getNacionalidad());
                newPer.setOcupacion(per.getOcupacion());
@@ -123,9 +97,16 @@ public class PersonaController {
                newPer.setSobre_mi(per.getSobre_mi());
                newPer.setImage_perfil(per.getImage_perfil());
                newPer.setReside_en(per.getReside_en());
-                    iperService.savePersona(per);
+               newPer.setRoles(per.getRoles());
+                    iperService.savePersona(newPer);
                     return newPer;
         }
+        /*
+        @PatchMapping("persona/edit/{id}")
+        @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+        public Persona editPersona(@RequestBody Persona per, @PathVariable Long id){
+            
+        }*/
         
 
         

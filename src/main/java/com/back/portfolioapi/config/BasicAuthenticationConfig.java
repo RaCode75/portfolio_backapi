@@ -50,10 +50,14 @@ public class BasicAuthenticationConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
       return  http.cors().and().csrf().disable()
               .authorizeHttpRequests()
-              .requestMatchers("/persona/auth/register", "/persona/auth/authenticate").permitAll()
+              .requestMatchers("/persona/auth/register", 
+                      "/persona/auth/authenticate",
+                       "education/find/**",
+                      "project/find/**"
+                      ).permitAll()
               .and()
               .authorizeHttpRequests()
-              .requestMatchers("/persona/**")
+              .requestMatchers("/persona/**", "/education/**", "/project/**")
               .authenticated()
               .and()
               .sessionManagement()
