@@ -1,35 +1,33 @@
-
 package com.back.portfolioapi.service;
 
-import com.back.portfolioapi.config.PerInfoDetails;
 import com.back.portfolioapi.model.Persona;
 import com.back.portfolioapi.repository.PersonaRepository;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-/**
- *
- * @author RaCode75
- */
-@Component
+@Service
 public class PerInfoDetailsService implements UserDetailsService {
-    
+
     @Autowired
-    private PersonaRepository repository;
+    private PersonaRepository personaRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        
-        Optional<Persona> persona=repository.findByEmail(username);
-        
-        return persona.map(PerInfoDetails::new)
-                .orElseThrow(()-> new UsernameNotFoundException("User not found: " + username));
-        
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
+
+        Persona persona = personaRepository.findByEmail(email)
+            .orElseThrow(() ->
+                new UsernameNotFoundException("Usuario no encontrado: " + email)
+            );
+
+        return User.builder()
+            .username(persona.getEmail())
+            .password(persona.getPassword())
+            .roles(persona.getRoles())
+            .build();
     }
-    
-   
 }

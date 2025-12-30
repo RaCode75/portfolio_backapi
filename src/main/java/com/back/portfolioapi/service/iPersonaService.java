@@ -8,15 +8,15 @@ import java.util.List;
  *
  * @author RaCode75
  */
-public interface iPersonaService {
+public interface IPersonaService {
     
-    public List<Persona> lookPersonas();
+    List<Persona> getPersonas();
     
-    public void addPersona(Persona per);
+    Persona savePersona(Persona per);
     
-    public void deletePersona(Long id);
+    void deletePersona(Long id);
     
-    public Persona findPersona(Long id);
+    Persona findPersona(Long id);
     
     
     
