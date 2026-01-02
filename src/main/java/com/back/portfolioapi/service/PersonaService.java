@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Transactional 
 public class PersonaService implements IPersonaService {
       
-    private PersonaRepository perRepo;
+    private final PersonaRepository perRepo;
     
     @Override
     public List<Persona> getPersonas() {

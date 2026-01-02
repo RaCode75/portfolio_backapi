@@ -23,6 +23,7 @@ public class PerInfoDetailsService implements UserDetailsService {
             .orElseThrow(() ->
                 new UsernameNotFoundException("Usuario no encontrado: " + email)
             );
+System.out.println("ROLES DB -> " + persona.getRoles());
 
         return User.builder()
             .username(persona.getEmail())
@@ -30,4 +31,5 @@ public class PerInfoDetailsService implements UserDetailsService {
             .roles(persona.getRoles())
             .build();
     }
+    
 }

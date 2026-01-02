@@ -59,21 +59,21 @@ public class PersonaController {
 
             
      @GetMapping("/persona/all")
-     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+     @PreAuthorize("hasRole('ADMIN')")
      @ResponseBody
         public List<Persona> verPersonas(){
             return iperService.getPersonas();
         }
         
      @DeleteMapping("persona/delete/{id}")
-     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+     @PreAuthorize("hasRole('ADMIN')")
         public String deletePersona(@PathVariable Long id){
             iperService.deletePersona(id);
                 return "Se elimino una Persona correctamente";
         }
         
      @GetMapping("persona/find/{id}")
-     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+     @PreAuthorize("hasRole('ADMIN')")
      @ResponseBody
         public Persona findPersona(@PathVariable Long id){
            return iperService.findPersona(id);
@@ -83,7 +83,7 @@ public class PersonaController {
 
         
         @PutMapping("persona/edit/{id}")
-        @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+        @PreAuthorize("hasRole('ADMIN')")
         public Persona replacePersona(@RequestBody Persona per, @PathVariable Long id){
             Persona newPer = iperService.findPersona(id); 
 

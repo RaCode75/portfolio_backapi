@@ -28,6 +28,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     
     @Autowired
     private PerInfoDetailsService userDetailsService;
+
+    
     
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -38,6 +40,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
        String authHeader = request.getHeader("Authorization");
        final String jwt;
        final String email;
+System.out.println("JWT FILTER EJECUTADO -> " + request.getRequestURI());
+
+System.out.println("AUTH HEADER -> " + request.getHeader("Authorization"));
+
 
        if(authHeader == null || !authHeader.startsWith("Bearer ")){
            filterChain.doFilter(request, response);
@@ -46,7 +52,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
        jwt = authHeader.substring(7);
        email = jwtService.extractUsername(jwt);
-       
+       System.out.println("JWT EMAIL -> " + email);
+
        if(email != null && SecurityContextHolder.getContext().getAuthentication() == null){
            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
                 if (jwtService.validateToken(jwt, userDetails)) {
@@ -60,9 +67,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                     );
-            
+            System.out.println("AUTH -> " + authToken.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                                            
+                    
+                        
                 }
     }
        
@@ -70,4 +78,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     
     
     }
+    
 }

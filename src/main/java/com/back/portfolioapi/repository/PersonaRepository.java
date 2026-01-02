@@ -13,10 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PersonaRepository extends JpaRepository <Persona, Long> {     
       Optional<Persona> findByEmail(String username);
-      
-      
-     
-      /*@Query("SELECT firstname, lastname, email, fecha_nacimiento, nacionalidad, ocupacion, sobre_mi, imagen_perfil, reside_en FROM Persona per WHERE per.id =  : id" )*/
-      
+           
          
 }
