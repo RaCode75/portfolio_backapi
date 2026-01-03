@@ -16,6 +16,8 @@ import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -41,6 +43,8 @@ public class PersonaController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
     
     
     @PostMapping ("/persona/auth/register")
@@ -51,10 +55,17 @@ public class PersonaController {
             }
          
          @PostMapping ("/persona/auth/authenticate")
-           public String authenticateGetToken(
-            @RequestBody AuthenticationRequest authRequest
-                ) {
-                  return jwtService.generateToken(authRequest.getEmail());
+           public AuthenticationResponse authenticate(
+            @RequestBody AuthenticationRequest authRequest) {
+               authenticationManager.authenticate(
+                  new UsernamePasswordAuthenticationToken(
+                     authRequest.getEmail(),
+                     authRequest.getPassword()
+                  )
+               );
+                  String accessToken = jwtService.generateAccessToken(authRequest.getEmail());
+                  String refreshToken = jwtService.generateRefreshToken(authRequest.getEmail());
+                  return new AuthenticationResponse(accessToken, refreshToken);
                 }
 
             

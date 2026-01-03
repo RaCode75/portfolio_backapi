@@ -2,6 +2,9 @@ package com.back.portfolioapi.service;
 
 import com.back.portfolioapi.model.Persona;
 import com.back.portfolioapi.repository.PersonaRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,10 +13,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class PerInfoDetailsService implements UserDetailsService {
 
     @Autowired
-    private PersonaRepository personaRepository;
+    private final PersonaRepository personaRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email)

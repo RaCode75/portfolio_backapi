@@ -56,23 +56,32 @@ public class JwtService {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
         
-    public String generateToken(String userName){
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userName);
-    }
-    
-    private String createToken(Map<String, Object> claims, String userName) {
+   
+    public String generateAccessToken(String email) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userName)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ 1000*60*30))
-                .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15))
+                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String generateRefreshToken(String email){
+        return Jwts.builder()
+            .setSubject(email)
+            .setIssuedAt(new Date())
+            .setExpiration(
+                new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 7)
+            )
+            .signWith(getSignKey(), SignatureAlgorithm.HS256)
+            .compact();
     }
     
     private Key getSignKey() {
         byte[] keyBytes=Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+
     
 }
