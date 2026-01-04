@@ -81,7 +81,7 @@ public class PersonaController {
             (@RequestBody RefreshTokenRequest request) {
              
             String refreshToken = request.getRefreshToken();
-            String email = jwtService.extractUsername(refreshToken);
+            String email = jwtService.extractUsername(refreshToken, true);
             
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
@@ -140,14 +140,4 @@ public class PersonaController {
                     iperService.savePersona(newPer);
                     return newPer;
         }
-        /*
-        @PatchMapping("persona/edit/{id}")
-        @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-        public Persona editPersona(@RequestBody Persona per, @PathVariable Long id){
-            
-        }*/
-        
-
-        
-    
 }
