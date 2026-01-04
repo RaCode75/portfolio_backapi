@@ -64,6 +64,7 @@ public class BasicAuthenticationConfig {
               .requestMatchers(
                 "/persona/auth/register", 
                 "/persona/auth/authenticate",
+                "/persona/auth/refresh",
                 "/education/find/**",
                 "/project/find/**"
                 ).permitAll()

@@ -1,5 +1,5 @@
 
-package com.back.portfolioapi.controller;
+package com.back.portfolioapi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -8,6 +8,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,6 +46,16 @@ System.out.println("JWT FILTER EJECUTADO -> " + request.getRequestURI());
 
 System.out.println("AUTH HEADER -> " + request.getHeader("Authorization"));
 
+Enumeration<String> headerNames = request.getHeaderNames();
+System.out.println("HEADERS:");
+
+while (headerNames.hasMoreElements()) {
+    String header = headerNames.nextElement();
+    System.out.println(header + " -> " + request.getHeader(header));
+}
+
+
+
 
        if(authHeader == null || !authHeader.startsWith("Bearer ")){
            filterChain.doFilter(request, response);
@@ -77,6 +89,13 @@ System.out.println("AUTH HEADER -> " + request.getHeader("Authorization"));
        filterChain.doFilter(request, response);
     
     
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request){
+        return request.getServletPath().equals("/persona/auth/refresh")
+            || request.getServletPath().equals("/persona/auth/authenticate")
+            || request.getServletPath().equals("/persona/auth/register");
     }
     
 }

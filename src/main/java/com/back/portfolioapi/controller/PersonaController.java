@@ -1,6 +1,9 @@
 
 package com.back.portfolioapi.controller;
 
+import com.back.portfolioapi.dto.AuthenticationRequest;
+import com.back.portfolioapi.dto.AuthenticationResponse;
+import com.back.portfolioapi.dto.RefreshTokenRequest;
 import com.back.portfolioapi.model.Persona;
 import com.back.portfolioapi.service.IPersonaService;
 import com.back.portfolioapi.service.JwtService;
@@ -18,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -45,7 +50,10 @@ public class PersonaController {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
-    
+    @Autowired
+    private final UserDetailsService userDetailsService;
+
+   
     
     @PostMapping ("/persona/auth/register")
          public String registerPersona ( @RequestBody Persona per){
@@ -67,6 +75,26 @@ public class PersonaController {
                   String refreshToken = jwtService.generateRefreshToken(authRequest.getEmail());
                   return new AuthenticationResponse(accessToken, refreshToken);
                 }
+
+         @PostMapping("/persona/auth/refresh")
+         public AuthenticationResponse refreshTokAuthenticationResponse
+            (@RequestBody RefreshTokenRequest request) {
+             
+            String refreshToken = request.getRefreshToken();
+            String email = jwtService.extractUsername(refreshToken);
+            
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+
+            if(!jwtService.validateRefreshToken(refreshToken, userDetails)){
+               throw new RuntimeException("Refresh token inválido");
+            }
+            
+            String newAccessToken = jwtService.generateAccessToken(email);
+            String newRefreshToken = jwtService.generateRefreshToken(email);
+            
+             return new AuthenticationResponse(newAccessToken, newRefreshToken);
+         }
+         
 
             
      @GetMapping("/persona/all")
